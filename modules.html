@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Module</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body {
+            background:black;
+            font-family: Arial, sans-serif;
+        }
+
+        .modules-title {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 32px;
+        }
+
+        .modules-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .module-card {
+            width: 280px;              /* ⬅ increased size */
+            height: 260px;             /* ⬅ increased size */
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 6px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .module-card:hover {
+            transform: scale(1.05);
+        }
+
+        .icon {
+            font-size: 60px;           /* ⬅ bigger icon */
+            margin-bottom: 10px;
+        }
+
+        .module-card h3 {
+            font-size: 20px;
+        }
+
+        .module-card p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .module-card button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            background: #2196F3;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .module-card button:hover {
+            background: #1976D2;
+        }
+
+    </style>
+</head>
+
+<body class="modules-body">
+
+    <h1 class="modules-title">Choose a Module</h1>
+
+    <div class="modules-container">
+
+        <!-- ONLY MODULE 1 -->
+        <div class="module-card">
+            <div class="icon">🖼</div>
+            <h3>Compare Images</h3>
+            <p>Check similarity between uploaded images.</p>
+            <button onclick="window.location.href='/compare'">Open</button>
+        </div>
+
+        <!-- ONLY MODULE 2 -->
+        <div class="module-card">
+            <div class="icon">🔁</div>
+            <h3>Duplicate Detection</h3>
+            <p>Scan folder and detect duplicate images.</p>
+            <button onclick="window.location.href='/duplicates'">Open</button>
+        </div>
+
+    </div>
+
+</body>
+</html>

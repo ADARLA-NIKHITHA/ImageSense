@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Duplicate Detection</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #f4f6f9;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .upload-box {
+            margin: 30px auto;
+        }
+
+        input {
+            margin: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .result-card {
+            background: white;
+            width: 300px;
+            margin: 15px auto;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+
+</head>
+
+<body>
+
+<h1>Duplicate Image Detection</h1>
+
+<form action="/find-duplicates" method="POST" enctype="multipart/form-data">
+
+    <input type="file" name="files[]" multiple required>
+
+    <button type="submit">Find Duplicates</button>
+
+</form>
+
+
+{% if duplicates %}
+
+<h2>Found {{ duplicates|length }} similar image groups</h2>
+
+<button>Download Deduplicated Images</button>
+
+<p>{{ total_images }} Original images</p>
+<p>{{ after_dedup }} After Dedup</p>
+<p>{{ removed }} Removed Duplicates</p>
+<p>{{ compression }}% Compression Rate</p>
+
+{% for group in duplicates %}
+<div style="background:white; padding:20px; margin:20px; border-radius:10px;">
+
+    <h3>Group {{ loop.index }} - {{ group|length }} images</h3>
+
+    <p>Avg Similarity: 100% Unique</p>
+
+    <p style="font-size:14px;">
+        Click the circle to select which image to keep.
+    </p>
+
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+        {% for img in group %}
+        <div style="text-align:center;">
+
+            <img src="/uploads/{{ img }}" width="220" height="150" style="border-radius:10px;"><br><br>
+
+            <input type="radio" name="group{{ loop.parent.index }}" checked>
+            <span style="color:blue;">Recommended</span>
+
+            <p>{{ img }}</p>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+{% endfor %}
+
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Deduplicator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Image Deduplicator</h1>
+
+        <div class="upload-section">
+            <input type="file" id="imageUpload" multiple accept="image/*">
+            <button id="uploadButton">Upload Your Images</button>
+            <p id="uploadStatus"></p>
+        </div>
+
+        <div id="resultsContainer" style="display: none;">
+            <div class="header-section">
+                <h2>Found <span id="numGroups">0</span> similar image groups</h2>
+                <button class="download-button" id="downloadAllButton">Download Deduplicated Images</button>
+            </div>
+
+            <div class="deduplication-stats">
+                <div>
+                    <span id="originalImagesCount" class="stat-number">0</span>
+                    <span class="stat-label">Original images</span>
+                </div>
+                <div>
+                    <span id="afterDedupCount" class="stat-number">0</span>
+                    <span class="stat-label">After Dedup</span>
+                </div>
+                <div>
+                    <span id="removedDuplicatesCount" class="stat-number">0</span>
+                    <span class="stat-label">Removed Duplicates</span>
+                </div>
+                <div>
+                    <span id="compressionRate" class="stat-number">0%</span>
+                    <span class="stat-label">Compression Rate</span>
+                </div>
+            </div>
+
+            <div id="imageGroupsArea">
+                <!-- Image groups will be rendered here -->
+            </div>
+            <p id="finalMessage" style="text-align: center; margin-top: 20px; font-weight: bold;"></p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

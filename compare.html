@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compare Images</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f4f6f9;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        /* Top Buttons */
+        .top-bar {
+            margin: 20px 0;
+        }
+
+        .control-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 6px;
+            margin: 0 12px;   /* spacing between + and - */
+        }
+
+        .control-btn:hover {
+            background: #45a049;
+        }
+
+        /* Image Container */
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .image-box {
+            width: 180px;
+            height: 220px;
+            border: 2px dashed #bbb;
+            border-radius: 10px;
+            background: white;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .image-box input {
+            width: 100%;
+        }
+
+        .preview-img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .compare-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .compare-btn:hover {
+            background: #1976D2;
+        }
+
+        /* Results */
+        .result-section {
+            margin-top: 30px;
+        }
+
+        .result-card {
+            background: white;
+            width: 300px;
+            margin: 15px auto;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 10px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle span {
+            background: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>Image Similarity Checker</h1>
+
+<div class="top-bar">
+    <button type="button" class="control-btn" onclick="addImageBox()">➕</button>
+    <button type="button" class="control-btn" onclick="removeImageBox()">➖</button>
+</div>
+
+<form action="/compare-images" method="POST" enctype="multipart/form-data">
+
+    <div id="imageContainer" class="image-container">
+
+        <!-- Default 2 boxes -->
+        <div class="image-box">
+            <input type="file" name="images" onchange="previewImage(this)" required>
+            <img class="preview-img">
+        </div>
+
+        <div class="image-box">
+            <input type="file" name="images" onchange="previewImage(this)" required>
+            <img class="preview-img">
+        </div>
+
+    </div>
+
+    <button type="submit" class="compare-btn">Compare</button>
+
+</form>
+
+
+{% if results %}
+<div class="result-section">
+    <h2>Similarity Results</h2>
+
+    {% for pair in results %}
+    <div class="result-card">
+
+        <p>{{ pair.img1 }} vs {{ pair.img2 }}</p>
+
+        <div class="circle"
+             style="background: conic-gradient(#4CAF50 {{ pair.score }}%, #ddd {{ pair.score }}%);">
+            <span>{{ pair.score }}%</span>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+<script>
+
+function addImageBox() {
+    const container = document.getElementById("imageContainer");
+
+    const box = document.createElement("div");
+    box.className = "image-box";
+
+    box.innerHTML = `
+        <input type="file" name="images" onchange="previewImage(this)" required>
+        <img class="preview-img">
+    `;
+
+    container.appendChild(box);
+}
+
+function removeImageBox() {
+    const container = document.getElementById("imageContainer");
+
+    if (container.children.length > 2) {
+        container.removeChild(container.lastElementChild);
+    }
+}
+
+function previewImage(input) {
+    const img = input.parentElement.querySelector(".preview-img");
+    const file = input.files[0];
+
+    if (file) {
+        img.src = URL.createObjectURL(file);
+        img.style.display = "block";
+    }
+}
+
+</script>
+<hr style="margin-top:40px;">
+
+<div style="width:85%; margin:auto; background:white; padding:25px; border-radius:12px; box-shadow:0px 6px 15px rgba(0,0,0,0.1); margin-top:20px;">
+
+    <h2 style="text-align:center;">How Image Comparison Works</h2>
+
+    <p style="text-align:center; font-size:16px;">
+        This project uses <b>SSIM (Structural Similarity Index)</b> to compare images 
+        based on structure, brightness, and contrast instead of just pixels.
+    </p>
+
+    <!-- Images Row -->
+    <div style="display:flex; justify-content:space-around; flex-wrap:wrap; margin-top:20px;">
+
+        <div style="text-align:center;">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828919.png" width="80">
+            <p>Upload Images</p>
+        </div>
+
+        <div style="text-align:center;">
+            <img src="https://cdn-icons-png.flaticon.com/512/2913/2913465.png" width="80">
+            <p>Process & Analyze</p>
+        </div>
+
+        <div style="text-align:center;">
+            <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" width="80">
+            <p>Generate Similarity</p>
+        </div>
+
+    </div>
+
+    <!-- Steps -->
+ <div style="margin-top:20px; text-align:left;">
+    <h3>Steps Involved:</h3>
+    <ol style="padding-left:20px; line-height:1.8;">
+        <li>Upload two or more images</li>
+        <li>Images are stored temporarily</li>
+        <li>SSIM algorithm compares image pairs</li>
+        <li>Similarity score is calculated</li>
+        <li>Results displayed in percentage</li>
+    </ol>
+</div>
+
+    <!-- Result Meaning -->
+<div style="margin-top:20px; text-align:left;">
+    <h3>Result Interpretation:</h3>
+    <ul style="padding-left:20px; line-height:1.8;">
+        <li>🟢 <b>80% – 100%</b> → Highly Similar</li>
+        <li>🟡 <b>50% – 79%</b> → Moderate Similarity</li>
+        <li>🔴 <b>Below 50%</b> → Different Images</li>
+    </ul>
+</div>
+
+    <!-- Tech Icons -->
+    <div style="text-align:center; margin-top:20px;">
+        <h3>Technologies Used</h3>
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png" width="50">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" width="50">
+        <img src="https://cdn-icons-png.flaticon.com/512/919/919827.png" width="50">
+        <p>Python • Flask • HTML • CSS • JavaScript</p>
+    </div>
+
+</div>
+
+</body>
+</html>
