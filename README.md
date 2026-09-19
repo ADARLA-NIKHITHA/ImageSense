@@ -48,6 +48,25 @@ The application consists of the following modules:
 5. The application compares the images using histogram correlation.
 6. The similarity result is displayed to the user.
 
+
+<img width="1767" height="846" alt="Screenshot 2026-09-19 180410" src="https://github.com/user-attachments/assets/e215c056-4bb9-4fc0-a538-30b1c86e4390" />
+
+
+<img width="852" height="652" alt="Screenshot 2026-09-19 180450" src="https://github.com/user-attachments/assets/b608f4fb-049c-489c-a9a4-3ee942c9c798" />
+
+
+<img width="1770" height="578" alt="Screenshot 2026-09-19 180501" src="https://github.com/user-attachments/assets/885638f3-0808-47cd-8d7a-2bad5e5a4b69" />
+
+
+<img width="1003" height="641" alt="Screenshot 2026-09-19 180529" src="https://github.com/user-attachments/assets/1ee21d15-6f6d-4360-895d-8e859c8d191b" />
+
+<img width="795" height="462" alt="Screenshot 2026-09-19 180553" src="https://github.com/user-attachments/assets/03e45db9-2374-4592-b917-8fb907cd8072" />
+
+
+
+
+
+
 ## Image Similarity Technique
 
 ImageSense uses **histogram correlation** to compare images.
