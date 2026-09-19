@@ -56,26 +56,6 @@ The images are processed and their color/visual histograms are generated. The hi
 
 A higher correlation value indicates greater similarity between the images.
 
-## Project Structure
-
-```text
-ImageSense/
-│
-├── app.py
-├── templates/
-│   ├── index.html
-│   ├── compare.html
-│   └── result.html
-│
-├── static/
-│   ├── css/
-│   └── js/
-│
-├── uploads/
-│
-└── README.md
-```
-
 ## Installation
 
 Clone the repository:
